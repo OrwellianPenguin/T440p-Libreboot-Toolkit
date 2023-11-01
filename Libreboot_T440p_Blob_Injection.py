@@ -129,7 +129,7 @@ if __name__ == "__main__":
 
     # Step 11: Check that the blobs were inserted
     print("Step 11: Check that the blobs were inserted")
-    output = run_command(f"./cbutils/default/cbfstool {selected_rom} print", capture_output=True)
+    output = run_command(f"./cbutils/default/cbfstool {selected_rom} print", cwd="/home/user/Documents/Libreboot/T440p/lbmk", capture_output=True)
     if 'mrc.bin' in output:
         print("mrc.bin found. Proceeding to the next step.")
     else:
@@ -138,24 +138,24 @@ if __name__ == "__main__":
 
     # Step 12: Create several .bin files
     print("Step 12: Create several .bin files")
-    run_command(f"./cbutils/default/ifdtool -x {selected_rom}")
+    run_command(f"./cbutils/default/ifdtool -x {selected_rom}", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
 
     # Step 13: Setting a MAC address
     print("Step 13: Setting a MAC address")
     user_input = input("Would you like to set a random MAC address or manually insert one? (random/manual): ").strip().lower()
     if user_input == 'random':
         # Add the command to generate a random MAC address
-        run_command("./util/nvmutil/nvm flashregion_3_gbe.bin setmac ??:??:??:??:??:??")
+        run_command("./util/nvmutil/nvm flashregion_3_gbe.bin setmac ??:??:??:??:??:??", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
     elif user_input == 'manual':
-        manual_mac = input("Please enter the MAC address in the format XX:XX:XX:XX:XX:XX: ")
-        run_command(f"./util/nvmutil/nvm flashregion_3_gbe.bin setmac {manual_mac}")
+        manual_mac = input("Please enter the MAC address in the format XX:XX:XX:XX:XX:XX: ", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
+        run_command(f"./util/nvmutil/nvm flashregion_3_gbe.bin setmac {manual_mac}", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
     else:
         print("Invalid option. Aborting.")
         exit(1)
 
     # Step 14: Run hexdump
     print("Step 14: Run hexdump")
-    hexdump_output = run_command("hexdump flashregion_2_intel_me.bin", capture_output=True)
+    hexdump_output = run_command("hexdump flashregion_2_intel_me.bin", cwd="/home/user/Documents/Libreboot/T440p/lbmk", capture_output=True)
     if 'ffff' not in hexdump_output:
         print("No '0xFF' found in hexdump output. The blobs have been inserted correctly.")
     else:
@@ -164,23 +164,23 @@ if __name__ == "__main__":
 
     # Step 15: Making a backup of the .rom file
     print("Step 15: Making a backup of the .rom file")
-    run_command(f"cp {selected_rom}.rom {selected_rom}.rom.bak")
+    run_command(f"cp {selected_rom}.rom {selected_rom}.rom.bak", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
 
     # Step 16: Inserting the modified flashregion_3_gbe.bin
     print("Step 16: Inserting the modified flashregion_3_gbe.bin")
-    run_command(f"./cbutils/default/ifdtool -i GbE:flashregion_3_gbe.bin {selected_rom}.rom")
+    run_command(f"./cbutils/default/ifdtool -i GbE:flashregion_3_gbe.bin {selected_rom}.rom", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
 
     # Step 17: Creating a backup of the modified flashregion_3_gbe.bin
     print("Step 17: Creating a backup of the modified flashregion_3_gbe.bin")
-    run_command("cp flashregion_3_gbe.bin flashregion_3_gbe.bin.bak")
+    run_command("cp flashregion_3_gbe.bin flashregion_3_gbe.bin.bak", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
 
     # Step 18: Dumping the new .rom file flashregion_3_gbe.bin
     print("Step 18: Dumping the new .rom file flashregion_3_gbe.bin")
-    run_command(f"./cbutils/default/ifdtool -x {selected_rom}.rom.new")
+    run_command(f"./cbutils/default/ifdtool -x {selected_rom}.rom.new", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
 
     # Step 19: Comparing the newly dumped flashregion_3_gbe.bin with its backup
     print("Step 19: Comparing the newly dumped flashregion_3_gbe.bin with its backup")
-    run_command("diff flashregion_3_gbe.bin flashregion_3_gbe.bin.bak")
+    run_command("diff flashregion_3_gbe.bin flashregion_3_gbe.bin.bak", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
 
 # End of the script
 
