@@ -1,5 +1,6 @@
 import subprocess
 import os
+import shutil
 
 # Function to run shell commands
 def run_command(command, cwd=None, capture_output=False, use_sudo=False):
@@ -13,9 +14,19 @@ def run_command(command, cwd=None, capture_output=False, use_sudo=False):
         print(f"Error output: {e.stderr}")
         exit(1)
 
+# Function to download file with overwrite check
+def download_file(directory, url, filename):
+    filepath = os.path.join(directory, filename)
+    if os.path.exists(filepath):
+        overwrite = input(f"The file {filename} already exists. Do you want to overwrite it? (yes/no): ").strip().lower()
+        if overwrite == 'no':
+            print(f"Skipping download of {filename}")
+            return
+    run_command(f"cd {directory} && wget {url} -O {filename}")
+
 # Function to let the user choose a ROM file
 def get_rom_choice(directory):
-    print("\nPlease choose a ROM file:")
+    print("\\nPlease choose a ROM file:")
     rom_files = [f for f in os.listdir(directory) if f.endswith('.rom')]
     for i, rom in enumerate(rom_files):
         print(f"{i + 1}. {rom}")
@@ -25,7 +36,7 @@ def get_rom_choice(directory):
             selected_rom = rom_files[int(choice) - 1]
             return selected_rom
         except (ValueError, IndexError):
-            print("Invalid choice. Please try again.\n")
+            print("Invalid choice. Please try again.\\n")
 
 # Function to let the user choose a download mirror
 def get_mirror_choice():
