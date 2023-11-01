@@ -146,7 +146,7 @@ if __name__ == "__main__":
     print("Step 14: Run hexdump")
     hexdump_output = run_command("hexdump flashregion_2_intel_me.bin", capture_output=True)
     if 'ffff' not in hexdump_output:
-        print("No '0xFF' found in hexdump output. Ready to flash the .rom file.")
+        print("No '0xFF' found in hexdump output. The blobs have been inserted correctly.")
     else:
         print("Found '0xFF' in hexdump output. Aborting.")
         exit(1)
