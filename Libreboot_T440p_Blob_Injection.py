@@ -140,7 +140,7 @@ if __name__ == "__main__":
 
     # Step 10: Copy the selected .rom file
     print("Step 10: Copy .rom file")
-    run_command(f"cp /home/user/Documents/Libreboot/T440p/bin/t440pmrc_12mb/{selected_rom} /home/user/Documents/Libreboot/T440p/lbmk/")
+    run_command(f"cp /home/user/Documents/Libreboot/T440p/bin/t440pmrc_12mb/{selected_rom} /home/user/Documents/Libreboot/T440p/lbmk/", cwd="/home/user/Documents/Libreboot/T440p/bin/t440pmrc_12mb/")
 
     # Step 11: Check that the blobs were inserted
     print("Step 11: Check that the blobs were inserted")
