@@ -140,11 +140,11 @@ if __name__ == "__main__":
 
     # Step 10: Copy the selected .rom file
     print("Step 10: Copy .rom file")
-    run_command(f"cp /home/user/Documents/Libreboot/T440p/bin/t440pmrc_12mb/{selected_rom} /home/user/Documents/Libreboot/T440p/libreboot-20230625_src/")
+    run_command(f"cp /home/user/Documents/Libreboot/T440p/bin/t440pmrc_12mb/{selected_rom} /home/user/Documents/Libreboot/T440p/lbmk/")
 
     # Step 11: Check that the blobs were inserted
     print("Step 11: Check that the blobs were inserted")
-    output = run_command(f"./cbutils/default/cbfstool {selected_rom} print", cwd="/home/user/Documents/Libreboot/T440p/lbmk", capture_output=True)
+    output = run_command(f"./cbutils/default/cbfstool {selected_rom} print", cwd="/home/user/Documents/Libreboot/T440p/lbmk/", capture_output=True)
     if 'mrc.bin' in output:
         print("mrc.bin found. Proceeding to the next step.")
     else:
@@ -153,14 +153,14 @@ if __name__ == "__main__":
 
     # Step 12: Create several .bin files
     print("Step 12: Create several .bin files")
-    run_command(f"./cbutils/default/ifdtool -x {selected_rom}", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
+    run_command(f"./cbutils/default/ifdtool -x {selected_rom}", cwd="/home/user/Documents/Libreboot/T440p/lbmk/")
 
     # Step 13: Setting a MAC address
     print("Step 13: Setting a MAC address")
     user_input = input("Would you like to set a random MAC address or manually insert one? (random/manual): ").strip().lower()
     if user_input == 'random':
         # Add the command to generate a random MAC address
-        run_command("./util/nvmutil/nvm flashregion_3_gbe.bin setmac ??:??:??:??:??:??", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
+        run_command("make /home/user/Documents/Libreboot/T440p/lbmk/util/nvmutil && ./util/nvmutil/nvm flashregion_3_gbe.bin setmac ??:??:??:??:??:??", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
     elif user_input == 'manual':
         manual_mac = input("Please enter the MAC address in the format XX:XX:XX:XX:XX:XX: ", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
         run_command(f"./util/nvmutil/nvm flashregion_3_gbe.bin setmac {manual_mac}", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
