@@ -124,9 +124,13 @@ if __name__ == "__main__":
     else:
         print("mrc.bin not found. Aborting.")
         exit(1)
-        
-    # Step 12: Setting a MAC address
-    print("Step 12: Setting a MAC address")
+
+    # Step 12: Create several .bin files
+    print("Step 12: Create several .bin files")
+    run_command(f"./cbutils/default/ifdtool -x {selected_rom}")
+
+    # Step 13: Setting a MAC address
+    print("Step 13: Setting a MAC address")
     user_input = input("Would you like to set a random MAC address or manually insert one? (random/manual): ").strip().lower()
     if user_input == 'random':
         # Add the command to generate a random MAC address
@@ -137,10 +141,6 @@ if __name__ == "__main__":
     else:
         print("Invalid option. Aborting.")
         exit(1)
-
-    # Step 13: Create several .bin files
-    print("Step 13: Create several .bin files")
-    run_command(f"./cbutils/default/ifdtool -x {selected_rom}")
 
     # Step 14: Run hexdump
     print("Step 14: Run hexdump")
