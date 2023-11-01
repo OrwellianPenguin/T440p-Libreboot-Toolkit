@@ -6,6 +6,21 @@ import shutil
 def run_command(command, cwd=None, capture_output=False, use_sudo=False):
     cmd = "sudo " + command if use_sudo else command
     try:
+        # Extract the filename from wget command (if it's a wget command)
+        if 'wget' in cmd:
+            parts = cmd.split()
+            try:
+                file_index = parts.index('-O') + 1
+                filepath = os.path.join(cwd, parts[file_index])
+                if os.path.exists(filepath):
+                    overwrite = input(f"The file {parts[file_index]} already exists. Do you want to overwrite it? (yes/no): ").strip().lower()
+                    if overwrite == 'no':
+                        print(f"Skipping download of {parts[file_index]}")
+                        return
+            except ValueError:
+                pass  # '-O' not found in wget command, proceed as normal
+
+        # Execute the command
         result = subprocess.run(cmd, shell=True, check=True, cwd=cwd, capture_output=capture_output, text=True)
         if capture_output:
             return result.stdout
