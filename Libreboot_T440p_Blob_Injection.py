@@ -135,7 +135,7 @@ if __name__ == "__main__":
 
     # Step 9: Let the user select a ROM file
     print("Step 9: Let the user select a ROM file")
-    selected_rom = get_rom_choice("/home/user/Documents/Libreboot/T440p/bin/t440pmrc_12mb/")
+    selected_rom = get_rom_choice("/home/user/Documents/Libreboot/T440p/bin/t440pmrc_12mb/", cwd="/home/user/Documents/Libreboot/T440p/bin/t440pmrc_12mb/")
     print(f"You have selected {selected_rom}")
 
     # Step 10: Copy the selected .rom file
