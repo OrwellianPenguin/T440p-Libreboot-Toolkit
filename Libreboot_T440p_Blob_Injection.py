@@ -153,12 +153,17 @@ if __name__ == "__main__":
     # Step 12: Setting a MAC address
     print("Step 12: Setting a MAC address")
     user_input = input("Would you like to set a random MAC address or manually insert one? (random/manual): ").strip().lower()
+
+    # Compile the nvmutil utility first
+    run_command(f"make nvmutil", cwd="/home/user/Documents/Libreboot/T440p/lbmk/util/nvmutil")
+
     if user_input == 'random':
-        # Add the command to generate a random MAC address
-        run_command("make nvmutil", cwd="/home/user/Documents/Libreboot/T440p/lbmk/util/nvmutil")
-        run_command("./util/nvmutil/nvm flashregion_3_gbe.bin setmac ??:??:??:??:??:??", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
+        # Command to set a random MAC address using the ?? placeholder for random bytes
+        run_command(f"./util/nvmutil/nvm flashregion_3_gbe.bin setmac ??:??:??:??:??:??", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
     elif user_input == 'manual':
+        # Prompt the user for a manual MAC address
         manual_mac = input("Please enter the MAC address in the format XX:XX:XX:XX:XX:XX: ")
+        # Command to set the MAC address manually
         run_command(f"./util/nvmutil/nvm flashregion_3_gbe.bin setmac {manual_mac}", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
     else:
         print("Invalid option. Aborting.")
@@ -166,32 +171,32 @@ if __name__ == "__main__":
 
     # Step 13: Run hexdump
     print("Step 13: Run hexdump")
-    hexdump_output = run_command("hexdump flashregion_2_intel_me.bin", cwd="/home/user/Documents/Libreboot/T440p/lbmk", capture_output=True)
-    if 'ffff' not in hexdump_output and '0xFF' not in hexdump_output:
-        print("No 'ffff' or '0xFF' found in hexdump output. The blobs have been inserted correctly.")
+    hexdump_output = run_command(f"hexdump flashregion_2_intel_me.bin", cwd="/home/user/Documents/Libreboot/T440p/lbmk", capture_output=True)
+    if '0xFF' not in hexdump_output:
+        print("No '0xFF' found in hexdump output. The blobs have been inserted correctly.")
     else:
-        print("Found 'ffff' or '0xFF' in hexdump output. Aborting.")
+        print("Found '0xFF' in hexdump output. Aborting.")
         exit(1)
 
     # Step 14: Making a backup of the .rom file
     print("Step 14: Making a backup of the .rom file")
-    run_command(f"cp {selected_rom}.rom {selected_rom}.rom.bak", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
+    run_command(f"cp {selected_rom} {selected_rom}.bak", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
 
     # Step 15: Inserting the modified flashregion_3_gbe.bin
     print("Step 15: Inserting the modified flashregion_3_gbe.bin")
-    run_command(f"./cbutils/default/ifdtool -i GbE:flashregion_3_gbe.bin {selected_rom}.rom", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
+    run_command(f"./cbutils/default/ifdtool -i GbE:flashregion_3_gbe.bin {selected_rom}", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
 
     # Step 16: Creating a backup of the modified flashregion_3_gbe.bin
     print("Step 16: Creating a backup of the modified flashregion_3_gbe.bin")
-    run_command("cp flashregion_3_gbe.bin flashregion_3_gbe.bin.bak", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
+    run_command(f"cp flashregion_3_gbe.bin flashregion_3_gbe.bin.bak", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
 
     # Step 17: Dumping the new .rom file flashregion_3_gbe.bin
     print("Step 17: Dumping the new .rom file flashregion_3_gbe.bin")
-    run_command(f"./cbutils/default/ifdtool -x {selected_rom}.rom.new", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
+    run_command(f"./cbutils/default/ifdtool -x {selected_rom}.new", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
 
     # Step 18: Comparing the newly dumped flashregion_3_gbe.bin with its backup
     print("Step 18: Comparing the newly dumped flashregion_3_gbe.bin with its backup")
-    run_command("diff flashregion_3_gbe.bin flashregion_3_gbe.bin.bak", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
+    run_command(f"diff flashregion_3_gbe.bin flashregion_3_gbe.bin.bak", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
     
     # Step 19: Ask if the .rom file is for external or internal flash
     flash_type = input("Are you performing an internal or external flash? External option splits the .rom into top.rom and bottom.rom. Internal option leaves the .rom unsplit. This will NOT flash your system. (internal/external): ").strip().lower()
@@ -202,11 +207,11 @@ if __name__ == "__main__":
         exit(1)
 
     # Command for both internal and external flash
-    common_command = f"mv {selected_rom}.rom.new {selected_rom}.rom && cp {selected_rom}.rom {selected_rom}.rom.bak"
+    common_command = f"mv {selected_rom}.new {selected_rom} && cp {selected_rom} {selected_rom}.bak"
 
     # If external flash
     if flash_type == 'external':
-        external_command = f"sudo dd if={selected_rom}.rom bs=1M of=bottom.rom count=8 && sudo dd if={selected_rom}.rom bs=1M of=top.rom skip=8"
+        external_command = f"sudo dd if={selected_rom} bs=1M of=bottom.rom count=8 && sudo dd if={selected_rom} bs=1M of=top.rom skip=8"
         full_command = f"{common_command} && {external_command}"
     # If internal flash
     else:
@@ -216,6 +221,6 @@ if __name__ == "__main__":
     run_command(full_command, cwd="/home/user/Documents/Libreboot/T440p/lbmk", use_sudo=True)
 
     # The .rom file is ready to be flashed
-    print("Congratulations! You're now ready to flash the .rom file to the T440p!")
+    print("Congratulations! You're now ready to flash the .rom file(s) to your T440p!")
 
     # End of the script
