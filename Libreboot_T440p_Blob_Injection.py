@@ -1,6 +1,7 @@
 import subprocess
 import os
 import shutil
+import stat
 
 # Function to run shell commands
 def run_command(command, cwd=None, capture_output=False, use_sudo=False, filename=None):
@@ -151,20 +152,32 @@ if __name__ == "__main__":
     run_command(f"./cbutils/default/ifdtool -x {selected_rom}", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
 
     # Step 12: Setting a MAC address
+    # Compile the nvmutil utility first
+    nvmutil_dir = "/home/user/Documents/Libreboot/T440p/lbmk/util/nvmutil"
+    print(f"Compiling nvmutil in directory: {nvmutil_dir}")
+    print(f"Current working directory before make: {os.getcwd()}")
+    make_output = run_command("make", cwd=nvmutil_dir)
+    print("Make output:", make_output)
+
+    # Check if nvm binary exists
+    nvm_path = os.path.join(nvmutil_dir, "nvm")
+    if not os.path.isfile(nvm_path):
+        print(f"Error: The nvm binary does not exist at {nvm_path}. Please check the make output and ensure that nvmutil is compiled correctly.")
+        exit(1)
+
+    # Ensure the binary is executable
+    os.chmod(nvm_path, os.stat(nvm_path).st_mode | stat.S_IEXEC)
+
     print("Step 12: Setting a MAC address")
     user_input = input("Would you like to set a random MAC address or manually insert one? (random/manual): ").strip().lower()
-
-    # Compile the nvmutil utility first
-    run_command(f"make nvmutil", cwd="/home/user/Documents/Libreboot/T440p/lbmk/util/nvmutil")
-
     if user_input == 'random':
         # Command to set a random MAC address using the ?? placeholder for random bytes
-        run_command(f"./util/nvmutil/nvm flashregion_3_gbe.bin setmac ??:??:??:??:??:??", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
+        run_command(f"{nvm_path} flashregion_3_gbe.bin setmac ??:??:??:??:??:??", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
     elif user_input == 'manual':
         # Prompt the user for a manual MAC address
         manual_mac = input("Please enter the MAC address in the format XX:XX:XX:XX:XX:XX: ")
         # Command to set the MAC address manually
-        run_command(f"./util/nvmutil/nvm flashregion_3_gbe.bin setmac {manual_mac}", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
+        run_command(f"{nvm_path} flashregion_3_gbe.bin setmac {manual_mac}", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
     else:
         print("Invalid option. Aborting.")
         exit(1)
