@@ -3,23 +3,18 @@ import os
 import shutil
 
 # Function to run shell commands
-def run_command(command, cwd=None, capture_output=False, use_sudo=False):
+def run_command(command, cwd=None, capture_output=False, use_sudo=False, filename=None):
     cmd = "sudo " + command if use_sudo else command
     try:
-        # Extract the filename from wget command (if it's a wget command)
-        if 'wget' in cmd:
-            parts = cmd.split()
-            try:
-                file_index = parts.index('-O') + 1
-                filepath = os.path.join(cwd, parts[file_index])
-                if os.path.exists(filepath):
-                    overwrite = input(f"The file {parts[file_index]} already exists. Do you want to overwrite it? (yes/no): ").strip().lower()
-                    if overwrite == 'no':
-                        print(f"Skipping download of {parts[file_index]}")
-                        return
-            except ValueError:
-                pass  # '-O' not found in wget command, proceed as normal
-
+        # Check for existing files if filename is provided
+        if filename:
+            filepath = os.path.join(cwd, filename)
+            if os.path.exists(filepath):
+                overwrite = input(f"The file {filename} already exists. Do you want to overwrite it? (yes/no): ").strip().lower()
+                if overwrite == 'no':
+                    print(f"Skipping download of {filename}")
+                    return
+        
         # Execute the command
         result = subprocess.run(cmd, shell=True, check=True, cwd=cwd, capture_output=capture_output, text=True)
         if capture_output:
@@ -28,16 +23,6 @@ def run_command(command, cwd=None, capture_output=False, use_sudo=False):
         print(f"Command '{command}' failed with error: {e}")
         print(f"Error output: {e.stderr}")
         exit(1)
-
-# Function to download file with overwrite check
-def download_file(directory, url, filename):
-    filepath = os.path.join(directory, filename)
-    if os.path.exists(filepath):
-        overwrite = input(f"The file {filename} already exists. Do you want to overwrite it? (yes/no): ").strip().lower()
-        if overwrite == 'no':
-            print(f"Skipping download of {filename}")
-            return
-    run_command(f"cd {directory} && wget {url} -O {filename}")
 
 # Function to let the user choose a ROM file
 def get_rom_choice(directory):
@@ -83,7 +68,7 @@ if __name__ == "__main__":
     run_command("git config --global user.name 'John Doe'")
     run_command("git config --global user.email 'johndoe@example.com'")
     run_command("mkdir -p /home/user/Documents/Libreboot/T440p")
-    run_command("cd /home/user/Documents/Libreboot/T440p && wget https://libreboot.org/lbkey.asc")
+    run_command("wget https://libreboot.org/lbkey.asc -O lbkey.asc", cwd="/home/user/Documents/Libreboot/T440p", filename="lbkey.asc")    
     run_command("gpg --import /home/user/Documents/Libreboot/T440p/lbkey.asc")
     
     # Step 2: Check if lbmk directory exists
@@ -102,100 +87,126 @@ if __name__ == "__main__":
 
     # Step 4: Download files from the selected mirror
     print("Step 4: Download files from the selected mirror")
-    run_command(f"cd /home/user/Documents/Libreboot/T440p && wget {base_path}libreboot-20230625_src.tar.xz")
-    run_command(f"wget {base_path}libreboot-20230625_src.tar.xz.sha256")
-    run_command(f"wget {base_path}libreboot-20230625_src.tar.xz.sha512")
-    run_command(f"wget {base_path}libreboot-20230625_src.tar.xz.sig")
-    run_command(f"wget {base_path}roms/libreboot-20230625_t440pmrc_12mb.tar.xz")
-    run_command(f"wget {base_path}roms/libreboot-20230625_t440pmrc_12mb.tar.xz.sha256")
-    run_command(f"wget {base_path}roms/libreboot-20230625_t440pmrc_12mb.tar.xz.sha512")
-    run_command(f"wget {base_path}roms/libreboot-20230625_t440pmrc_12mb.tar.xz.sig")
+    file_list = [
+        "libreboot-20230625_src.tar.xz",
+        "libreboot-20230625_src.tar.xz.sha256",
+        "libreboot-20230625_src.tar.xz.sha512",
+        "libreboot-20230625_src.tar.xz.sig",
+        "roms/libreboot-20230625_t440pmrc_12mb.tar.xz",
+        "roms/libreboot-20230625_t440pmrc_12mb.tar.xz.sha256",
+        "roms/libreboot-20230625_t440pmrc_12mb.tar.xz.sha512",
+        "roms/libreboot-20230625_t440pmrc_12mb.tar.xz.sig"
+    ]
+    cwd_path = "/home/user/Documents/Libreboot/T440p"
+    for file_name in file_list:
+        run_command(f"wget {base_path}{file_name} -O {file_name.split('/')[-1]}", cwd=cwd_path, filename=file_name.split('/')[-1])
 
     # Step 5: Verify the checksums and signatures
     print("Step 5: Verify the checksums and signatures")
-    run_command("sha256sum -c libreboot-20230625_src.tar.xz.sha256")
-    run_command("sha512sum -c libreboot-20230625_src.tar.xz.sha512")
-    run_command("gpg --verify libreboot-20230625_src.tar.xz.sig libreboot-20230625_src.tar.xz")
-    run_command("sha256sum -c libreboot-20230625_t440pmrc_12mb.tar.xz.sha256")
-    run_command("sha512sum -c libreboot-20230625_t440pmrc_12mb.tar.xz.sha512")
-    run_command("gpg --verify libreboot-20230625_t440pmrc_12mb.tar.xz.sig libreboot-20230625_t440pmrc_12mb.tar.xz")
-    
+    run_command("sha256sum -c libreboot-20230625_src.tar.xz.sha256", cwd=cwd_path)
+    run_command("sha512sum -c libreboot-20230625_src.tar.xz.sha512", cwd=cwd_path)
+    run_command("gpg --verify libreboot-20230625_src.tar.xz.sig libreboot-20230625_src.tar.xz", cwd=cwd_path)
+    run_command("sha256sum -c libreboot-20230625_t440pmrc_12mb.tar.xz.sha256", cwd=cwd_path)
+    run_command("sha512sum -c libreboot-20230625_t440pmrc_12mb.tar.xz.sha512", cwd=cwd_path)
+    run_command("gpg --verify libreboot-20230625_t440pmrc_12mb.tar.xz.sig libreboot-20230625_t440pmrc_12mb.tar.xz", cwd=cwd_path)
+
     # Step 6: Install lbmk dependencies
     print("Step 6: Install lbmk dependencies")
     run_command("./build dependencies debian", cwd="/home/user/Documents/Libreboot/T440p/lbmk", use_sudo=True)
     run_command("chown -R user:user lbmk", cwd="/home/user/Documents/Libreboot/T440p/", use_sudo=True)
 
-    # Step 7: Inject blobs into ROM
+    # Step 7: Inject blobs into the T440p ROM .tar.xz file (The patched .rom files will be in /home/user/Documents/Libreboot/T440p/lbmk/bin/release/t440pmrc_12mb)
     print("Step 7: Inject blobs into the ROM .tar.xz file")
     run_command("./vendor inject /home/user/Documents/Libreboot/T440p/libreboot-20230625_t440pmrc_12mb.tar.xz", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
 
-    # Step 8: Extract ROM after blob injection
-    print("Step 8: Extract ROM after blob injection")
-    run_command("cd /home/user/Documents/Libreboot/T440p && tar -xJvf libreboot-20230625_t440pmrc_12mb.tar.xz && tar -xJvf libreboot-20230625_src.tar.xz")
-
     # Step 9: Let the user select a ROM file
     print("Step 9: Let the user select a ROM file")
-    selected_rom = get_rom_choice("/home/user/Documents/Libreboot/T440p/bin/t440pmrc_12mb/", cwd="/home/user/Documents/Libreboot/T440p/bin/t440pmrc_12mb/")
+    selected_rom = get_rom_choice("/home/user/Documents/Libreboot/T440p/lbmk/bin/release/t440pmrc_12mb")
     print(f"You have selected {selected_rom}")
 
     # Step 10: Copy the selected .rom file
-    print("Step 10: Copy .rom file")
-    run_command(f"cp /home/user/Documents/Libreboot/T440p/bin/t440pmrc_12mb/{selected_rom} /home/user/Documents/Libreboot/T440p/lbmk/", cwd="/home/user/Documents/Libreboot/T440p/bin/t440pmrc_12mb/")
+    print("Copying selected .rom file to lbmk folder...")
+    run_command(f"cp /home/user/Documents/Libreboot/T440p/lbmk/bin/release/t440pmrc_12mb/{selected_rom} /home/user/Documents/Libreboot/T440p/lbmk", cwd="/home/user/Documents/Libreboot/T440p/lbmk/bin/release/t440pmrc_12mb")
 
-    # Step 11: Check that the blobs were inserted
-    print("Step 11: Check that the blobs were inserted")
-    output = run_command(f"./cbutils/default/cbfstool {selected_rom} print", cwd="/home/user/Documents/Libreboot/T440p/lbmk/", capture_output=True)
+    # Step 12: Check that the blobs were inserted
+    print("Step 12: Check that the blobs were inserted")
+    output = run_command(f"./cbutils/default/cbfstool {selected_rom} print", cwd="/home/user/Documents/Libreboot/T440p/lbmk", capture_output=True)
     if 'mrc.bin' in output:
         print("mrc.bin found. Proceeding to the next step.")
     else:
         print("mrc.bin not found. Aborting.")
         exit(1)
 
-    # Step 12: Create several .bin files
-    print("Step 12: Create several .bin files")
-    run_command(f"./cbutils/default/ifdtool -x {selected_rom}", cwd="/home/user/Documents/Libreboot/T440p/lbmk/")
+    # Step 13: Create several .bin files to change MAC address and verify integrity of blob insertion
+    print("Step 13: Create several .bin files")
+    run_command(f"./cbutils/default/ifdtool -x {selected_rom}", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
 
-    # Step 13: Setting a MAC address
-    print("Step 13: Setting a MAC address")
+    # Step 14: Setting a MAC address
+    print("Step 14: Setting a MAC address")
     user_input = input("Would you like to set a random MAC address or manually insert one? (random/manual): ").strip().lower()
     if user_input == 'random':
         # Add the command to generate a random MAC address
-        run_command("make /home/user/Documents/Libreboot/T440p/lbmk/util/nvmutil && ./util/nvmutil/nvm flashregion_3_gbe.bin setmac ??:??:??:??:??:??", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
+        run_command("make nvmutil", cwd="/home/user/Documents/Libreboot/T440p/lbmk/util/nvmutil")
+        run_command("./util/nvmutil/nvm flashregion_3_gbe.bin setmac ??:??:??:??:??:??", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
     elif user_input == 'manual':
-        manual_mac = input("Please enter the MAC address in the format XX:XX:XX:XX:XX:XX: ", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
+        manual_mac = input("Please enter the MAC address in the format XX:XX:XX:XX:XX:XX: ")
         run_command(f"./util/nvmutil/nvm flashregion_3_gbe.bin setmac {manual_mac}", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
     else:
         print("Invalid option. Aborting.")
         exit(1)
 
-    # Step 14: Run hexdump
-    print("Step 14: Run hexdump")
+    # Step 15: Run hexdump
+    print("Step 15: Run hexdump")
     hexdump_output = run_command("hexdump flashregion_2_intel_me.bin", cwd="/home/user/Documents/Libreboot/T440p/lbmk", capture_output=True)
-    if 'ffff' not in hexdump_output:
-        print("No '0xFF' found in hexdump output. The blobs have been inserted correctly.")
+    if 'ffff' not in hexdump_output and '0xFF' not in hexdump_output:
+        print("No 'ffff' or '0xFF' found in hexdump output. The blobs have been inserted correctly.")
     else:
-        print("Found '0xFF' in hexdump output. Aborting.")
+        print("Found 'ffff' or '0xFF' in hexdump output. Aborting.")
         exit(1)
 
-    # Step 15: Making a backup of the .rom file
-    print("Step 15: Making a backup of the .rom file")
+    # Step 16: Making a backup of the .rom file
+    print("Step 16: Making a backup of the .rom file")
     run_command(f"cp {selected_rom}.rom {selected_rom}.rom.bak", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
 
-    # Step 16: Inserting the modified flashregion_3_gbe.bin
-    print("Step 16: Inserting the modified flashregion_3_gbe.bin")
+    # Step 17: Inserting the modified flashregion_3_gbe.bin
+    print("Step 17: Inserting the modified flashregion_3_gbe.bin")
     run_command(f"./cbutils/default/ifdtool -i GbE:flashregion_3_gbe.bin {selected_rom}.rom", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
 
-    # Step 17: Creating a backup of the modified flashregion_3_gbe.bin
-    print("Step 17: Creating a backup of the modified flashregion_3_gbe.bin")
+    # Step 18: Creating a backup of the modified flashregion_3_gbe.bin
+    print("Step 18: Creating a backup of the modified flashregion_3_gbe.bin")
     run_command("cp flashregion_3_gbe.bin flashregion_3_gbe.bin.bak", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
 
-    # Step 18: Dumping the new .rom file flashregion_3_gbe.bin
-    print("Step 18: Dumping the new .rom file flashregion_3_gbe.bin")
+    # Step 19: Dumping the new .rom file flashregion_3_gbe.bin
+    print("Step 19: Dumping the new .rom file flashregion_3_gbe.bin")
     run_command(f"./cbutils/default/ifdtool -x {selected_rom}.rom.new", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
 
-    # Step 19: Comparing the newly dumped flashregion_3_gbe.bin with its backup
-    print("Step 19: Comparing the newly dumped flashregion_3_gbe.bin with its backup")
+    # Step 20: Comparing the newly dumped flashregion_3_gbe.bin with its backup
+    print("Step 20: Comparing the newly dumped flashregion_3_gbe.bin with its backup")
     run_command("diff flashregion_3_gbe.bin flashregion_3_gbe.bin.bak", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
+    
+    # Step 21: Ask if the .rom file is for external or internal flash
+    flash_type = input("Are you performing an internal or external flash? External option splits the .rom into top.rom and bottom.rom. Internal option leaves the .rom unsplit. This will NOT flash your system. (internal/external): ").strip().lower()
 
-# End of the script
+    # Validate user input
+    if flash_type not in ['internal', 'external']:
+        print("Invalid input. Please enter either 'internal' or 'external'.")
+        exit(1)
 
+    # Command for both internal and external flash
+    common_command = f"mv {selected_rom}.rom.new {selected_rom}.rom && cp {selected_rom}.rom {selected_rom}.rom.bak"
+
+    # If external flash
+    if flash_type == 'external':
+        external_command = f"sudo dd if={selected_rom}.rom bs=1M of=bottom.rom count=8 && sudo dd if={selected_rom}.rom bs=1M of=top.rom skip=8"
+        full_command = f"{common_command} && {external_command}"
+    # If internal flash
+    else:
+        full_command = common_command
+
+    # Execute the appropriate command
+    run_command(full_command, cwd="/home/user/Documents/Libreboot/T440p/lbmk", use_sudo=True)
+
+    # The .rom file is ready to be flashed
+    print("Congratulations! You're now ready to flash the .rom file to the T440p!")
+
+    # End of the script
