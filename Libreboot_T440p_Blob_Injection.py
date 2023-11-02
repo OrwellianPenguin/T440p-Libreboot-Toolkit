@@ -119,17 +119,17 @@ if __name__ == "__main__":
     print("Step 7: Inject blobs into the ROM .tar.xz file")
     run_command("./vendor inject /home/user/Documents/Libreboot/T440p/libreboot-20230625_t440pmrc_12mb.tar.xz", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
 
-    # Step 9: Let the user select a ROM file
-    print("Step 9: Let the user select a ROM file")
+    # Step 8: Let the user select a ROM file
+    print("Step 8: Let the user select a ROM file")
     selected_rom = get_rom_choice("/home/user/Documents/Libreboot/T440p/lbmk/bin/release/t440pmrc_12mb")
     print(f"You have selected {selected_rom}")
 
-    # Step 10: Copy the selected .rom file
+    # Step 9: Copy the selected .rom file
     print("Copying selected .rom file to lbmk folder...")
     run_command(f"cp /home/user/Documents/Libreboot/T440p/lbmk/bin/release/t440pmrc_12mb/{selected_rom} /home/user/Documents/Libreboot/T440p/lbmk", cwd="/home/user/Documents/Libreboot/T440p/lbmk/bin/release/t440pmrc_12mb")
 
-    # Step 12: Check that the blobs were inserted
-    print("Step 12: Check that the blobs were inserted")
+    # Step 10: Check that the blobs were inserted
+    print("Step 10: Check that the blobs were inserted")
     output = run_command(f"./cbutils/default/cbfstool {selected_rom} print", cwd="/home/user/Documents/Libreboot/T440p/lbmk", capture_output=True)
     if 'mrc.bin' in output:
         print("mrc.bin found. Proceeding to the next step.")
@@ -137,12 +137,12 @@ if __name__ == "__main__":
         print("mrc.bin not found. Aborting.")
         exit(1)
 
-    # Step 13: Create several .bin files to change MAC address and verify integrity of blob insertion
-    print("Step 13: Create several .bin files")
+    # Step 11: Create several .bin files to change MAC address and verify integrity of blob insertion
+    print("Step 11: Create several .bin files")
     run_command(f"./cbutils/default/ifdtool -x {selected_rom}", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
 
-    # Step 14: Setting a MAC address
-    print("Step 14: Setting a MAC address")
+    # Step 12: Setting a MAC address
+    print("Step 12: Setting a MAC address")
     user_input = input("Would you like to set a random MAC address or manually insert one? (random/manual): ").strip().lower()
     if user_input == 'random':
         # Add the command to generate a random MAC address
@@ -155,8 +155,8 @@ if __name__ == "__main__":
         print("Invalid option. Aborting.")
         exit(1)
 
-    # Step 15: Run hexdump
-    print("Step 15: Run hexdump")
+    # Step 13: Run hexdump
+    print("Step 13: Run hexdump")
     hexdump_output = run_command("hexdump flashregion_2_intel_me.bin", cwd="/home/user/Documents/Libreboot/T440p/lbmk", capture_output=True)
     if 'ffff' not in hexdump_output and '0xFF' not in hexdump_output:
         print("No 'ffff' or '0xFF' found in hexdump output. The blobs have been inserted correctly.")
@@ -164,27 +164,27 @@ if __name__ == "__main__":
         print("Found 'ffff' or '0xFF' in hexdump output. Aborting.")
         exit(1)
 
-    # Step 16: Making a backup of the .rom file
-    print("Step 16: Making a backup of the .rom file")
+    # Step 14: Making a backup of the .rom file
+    print("Step 14: Making a backup of the .rom file")
     run_command(f"cp {selected_rom}.rom {selected_rom}.rom.bak", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
 
-    # Step 17: Inserting the modified flashregion_3_gbe.bin
-    print("Step 17: Inserting the modified flashregion_3_gbe.bin")
+    # Step 15: Inserting the modified flashregion_3_gbe.bin
+    print("Step 15: Inserting the modified flashregion_3_gbe.bin")
     run_command(f"./cbutils/default/ifdtool -i GbE:flashregion_3_gbe.bin {selected_rom}.rom", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
 
-    # Step 18: Creating a backup of the modified flashregion_3_gbe.bin
-    print("Step 18: Creating a backup of the modified flashregion_3_gbe.bin")
+    # Step 16: Creating a backup of the modified flashregion_3_gbe.bin
+    print("Step 16: Creating a backup of the modified flashregion_3_gbe.bin")
     run_command("cp flashregion_3_gbe.bin flashregion_3_gbe.bin.bak", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
 
-    # Step 19: Dumping the new .rom file flashregion_3_gbe.bin
-    print("Step 19: Dumping the new .rom file flashregion_3_gbe.bin")
+    # Step 17: Dumping the new .rom file flashregion_3_gbe.bin
+    print("Step 17: Dumping the new .rom file flashregion_3_gbe.bin")
     run_command(f"./cbutils/default/ifdtool -x {selected_rom}.rom.new", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
 
-    # Step 20: Comparing the newly dumped flashregion_3_gbe.bin with its backup
-    print("Step 20: Comparing the newly dumped flashregion_3_gbe.bin with its backup")
+    # Step 18: Comparing the newly dumped flashregion_3_gbe.bin with its backup
+    print("Step 18: Comparing the newly dumped flashregion_3_gbe.bin with its backup")
     run_command("diff flashregion_3_gbe.bin flashregion_3_gbe.bin.bak", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
     
-    # Step 21: Ask if the .rom file is for external or internal flash
+    # Step 19: Ask if the .rom file is for external or internal flash
     flash_type = input("Are you performing an internal or external flash? External option splits the .rom into top.rom and bottom.rom. Internal option leaves the .rom unsplit. This will NOT flash your system. (internal/external): ").strip().lower()
 
     # Validate user input
