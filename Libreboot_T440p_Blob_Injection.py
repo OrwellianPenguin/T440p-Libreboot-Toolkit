@@ -114,10 +114,19 @@ if __name__ == "__main__":
     print("Step 6: Install lbmk dependencies")
     run_command("./build dependencies debian", cwd="/home/user/Documents/Libreboot/T440p/lbmk", use_sudo=True)
     run_command("chown -R user:user lbmk", cwd="/home/user/Documents/Libreboot/T440p/", use_sudo=True)
+    
+    # Step 7: Ask if user wants to inject blobs into the ROM .tar.xz file
+    print("Step 7: Would you like to inject blobs into the ROM .tar.xz file? This step is necessary if you haven't already injected blobs into your ROM.")
+    user_input = input("Inject blobs? (yes/no): ").strip().lower()
 
-    # Step 7: Inject blobs into the T440p ROM .tar.xz file (The patched .rom files will be in /home/user/Documents/Libreboot/T440p/lbmk/bin/release/t440pmrc_12mb)
-    print("Step 7: Inject blobs into the ROM .tar.xz file")
-    run_command("./vendor inject /home/user/Documents/Libreboot/T440p/libreboot-20230625_t440pmrc_12mb.tar.xz", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
+    if user_input == 'yes':
+        print("Injecting blobs into the ROM .tar.xz file...")
+        run_command("./vendor inject /home/user/Documents/Libreboot/T440p/libreboot-20230625_t440pmrc_12mb.tar.xz", cwd="/home/user/Documents/Libreboot/T440p/lbmk")
+    elif user_input == 'no':
+        print("Skipping blob injection.")
+    else:
+        print("Invalid input. Please type 'yes' or 'no'. Aborting.")
+        exit(1)
 
     # Step 8: Let the user select a ROM file
     print("Step 8: Let the user select a ROM file")
