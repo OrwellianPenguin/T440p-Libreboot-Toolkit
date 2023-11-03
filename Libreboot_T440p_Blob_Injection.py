@@ -31,96 +31,19 @@ def run_command(command, cwd=None, capture_output=False, use_sudo=False, filenam
         print(f"Error output: {e.stderr}")
         exit(1)
         
-# Function to select ROM file
+# Function to let the user choose a ROM file
 def get_rom_choice(directory):
-    print("Please select your ROM file configuration step by step.")
-
-    # Define the categories and options with explanations
-    layouts = {
-        'usqwerty': 'US QWERTY keyboard layout.',
-        'ukdvorak': 'UK Dvorak keyboard layout.',
-        'esqwerty': 'Spanish QWERTY keyboard layout.',
-        'deqwertz': 'German QWERTZ keyboard layout.',
-        'frdvbepo': 'French Bepo keyboard layout.',
-        'svenska': 'Swedish keyboard layout.',
-        'trqwerty': 'Turkish QWERTY keyboard layout.',
-        'itqwerty': 'Italian QWERTY keyboard layout.',
-        'colemak': 'Colemak keyboard layout.',
-        # Add more layouts as needed
-    }
-    payloads = {
-        'grub': 'GRUB payload. Boots directly into GRUB.',
-        'seabios': 'SeaBIOS payload. Boots into SeaBIOS.',
-        'seabios_withgrub': 'SeaBIOS payload with GRUB in the boot menu.',
-        # Add more payload options as needed
-    }
-    graphics = {
-        'corebootfb': 'Uses a high-resolution coreboot framebuffer on startup.',
-        'txtmode': 'Utilizes standard text mode on startup.',
-        # Add more graphics options as needed
-    }
-    microcodes = {
-        'nomicrocode': 'No microcode updates included.',
-        'withmicrocode': 'Microcode updates included for security.',
-        # Add more microcode update preferences as needed
-    }
-
-    # Function to list options and get the user's choice
-    def choose_option(options, option_type):
-        print(f"\nSelect {option_type}:")
-        for index, (key, description) in enumerate(options.items(), start=1):
-            print(f"{index}. {key} - {description}")
-        while True:
-            try:
-                choice = int(input(f"Enter the number corresponding to your {option_type} choice: "))
-                if 1 <= choice <= len(options):
-                    selected_key = list(options.keys())[choice - 1]
-                    print(f"You have selected: {selected_key} - {options[selected_key]}")
-                    return selected_key
-                else:
-                    print("Invalid number. Please enter a number from the list.")
-            except ValueError:
-                print("Invalid input. Please enter a number.")
-
-    # Choose layout
-    layout = choose_option(layouts, "keyboard layout")
-
-    # Choose payload
-    payload = choose_option(payloads, "payload")
-
-    # Choose graphics initialization
-    graphic = choose_option(graphics, "graphics initialization")
-
-    # Choose microcode update preference
-    microcode = choose_option(microcodes, "microcode update preference")
-
-    # Construct the search pattern based on chosen options
-    pattern = f"{payload}_{graphic}_{layout}_{microcode}.rom"
-
-    # Find ROM files that match the pattern
-    matching_roms = [f for f in os.listdir(directory) if pattern in f]
-
-    if not matching_roms:
-        print("\nNo ROM file matches your selection.")
-        return None
-
-    # Display matching ROM files
-    print("\nAvailable ROM files based on your selection:")
-    for i, rom in enumerate(matching_roms, start=1):
-        print(f"{i}. {rom}")
-
-    # Final selection from the filtered ROMs
+    print("\\nPlease choose a ROM file:")
+    rom_files = [f for f in os.listdir(directory) if f.endswith('.rom')]
+    for i, rom in enumerate(rom_files):
+        print(f"{i + 1}. {rom}")
     while True:
+        choice = input("Enter the number corresponding to your choice: ").strip()
         try:
-            choice = int(input("Enter the number corresponding to your ROM choice: "))
-            if 1 <= choice <= len(matching_roms):
-                selected_rom = matching_roms[choice - 1]
-                print(f"You have selected: {selected_rom}")
-                return selected_rom
-            else:
-                print("Invalid number. Please select a valid number from the list.")
-        except ValueError:
-            print("Invalid input. Please enter a number.")
+            selected_rom = rom_files[int(choice) - 1]
+            return selected_rom
+        except (ValueError, IndexError):
+            print("Invalid choice. Please try again.\\n")
             
 # Function to let the user choose a download mirror
 def get_mirror_choice():
@@ -219,9 +142,16 @@ if __name__ == "__main__":
     rom_directory = get_path("libreboot/t440p/lbmk/bin/release/t440pmrc_12mb")
     selected_rom = get_rom_choice(rom_directory)
 
-    # Step 9: Copy the selected .rom file
-    print(f"Step 9: Copy the selected .rom file: {selected_rom} to the lbmk folder")
-    shutil.copy(os.path.join(rom_directory, selected_rom), get_path("libreboot/t440p/lbmk"))
+    # Check if a ROM file was selected
+    if selected_rom is not None:
+        # Step 9: Copy the selected .rom file
+        print(f"Step 9: Copy the selected .rom file: {selected_rom} to the lbmk folder")
+        destination_path = get_path("libreboot/t440p/lbmk")  # Ensure get_path function resolves to the correct directory
+        shutil.copy(os.path.join(rom_directory, selected_rom), destination_path)
+    else:
+        # Handle the case where no ROM file was selected
+        print("An error occurred: no ROM file was selected. Please try the selection again.")
+        exit(1)
 
     # Step 10: Check that the blobs were inserted
     print("Step 10: Check that the blobs were inserted")
@@ -311,4 +241,3 @@ if __name__ == "__main__":
         print("The .rom file is ready for internal flash.")
 
     print("Congratulations! The .rom file is prepared and ready to be flashed to your T440p.")
-
