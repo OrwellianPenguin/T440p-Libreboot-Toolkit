@@ -42,7 +42,7 @@ sudo apt install git && sudo apt install python3
 ## Getting Started
 1. **Clone the Repository**: If applicable, clone the repository containing the script or download the script directly to your local machine.
    ```
-   git clone https://github.com/OrwellianPenguin/T440p-Libreboot-*
+   git clone https://github.com/OrwellianPenguin/T440p-Libreboot-Toolkit
    cd T440p-Libreboot-Toolkit
    ```
 
