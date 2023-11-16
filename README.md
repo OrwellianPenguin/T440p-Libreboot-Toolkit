@@ -81,7 +81,7 @@ The script follows these steps:
 
 #### Returning Users:
 
-- If you're using a ROM file that was previously prepared with the necessary blobs, you can opt to skip this step. The script will ask if you want to inject blobs again. (ROM files with blobs already injected are located here: cd T440p-Libreboot-Toolkit/libreboot/t440p/lbmk/bin/)
+- If you're using a ROM file that was previously prepared with the necessary blobs, you can opt to skip this step. The script will ask if you want to inject blobs again. ROM files with blobs already injected are located in T440p-Libreboot-Toolkit/libreboot/t440p/lbmk/bin/
 
 ## Step 7: ROM Selection and Preparation
 - Lets the user select a ROM file and prepares it for flashing.
