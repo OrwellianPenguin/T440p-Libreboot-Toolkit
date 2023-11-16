@@ -2,6 +2,7 @@ import subprocess
 import os
 import shutil
 import stat
+import getpass
 
 # Get the base directory relative to the current script
 base_dir = os.path.abspath(os.path.dirname(__file__))
@@ -30,6 +31,40 @@ def run_command(command, cwd=None, capture_output=False, use_sudo=False, filenam
         print(f"Command '{command}' failed with error: {e}")
         print(f"Error output: {e.stderr}")
         exit(1)
+
+# Clean up the lbmk directory
+def clean_up_lbmk_directory(selected_rom, flash_type):
+    lbmk_dir = get_path("libreboot/t440p/lbmk")
+    modified_rom = f"{selected_rom}.new"
+    files_to_keep = [
+        "bin", "cbutils", "config", "elf", "projectname", "README.md", "build", "include",
+        "script", "src", "tmp", "update", "util", "vendor", "vendorfiles", "version", "versiondate",
+        modified_rom,  # Keep the modified ROM file
+    ]
+
+    # Add top.rom and bottom.rom to files to keep only if flash type is external
+    if flash_type == 'external':
+        files_to_keep.extend(["top.rom", "bottom.rom"])
+
+    print("Cleaning up unnecessary files from lbmk directory...")
+    for item in os.listdir(lbmk_dir):
+        item_path = os.path.join(lbmk_dir, item)
+        if item not in files_to_keep:
+            if os.path.isfile(item_path) or os.path.islink(item_path):
+                os.remove(item_path)
+                print(f"Removed file: {item}")
+            elif os.path.isdir(item_path):
+                shutil.rmtree(item_path)
+                print(f"Removed directory: {item}")
+
+    # Rename the modified .rom file to its original name for consistency
+    modified_rom_path = os.path.join(lbmk_dir, modified_rom)
+    original_rom_path = os.path.join(lbmk_dir, selected_rom)
+    if os.path.exists(modified_rom_path):
+        os.rename(modified_rom_path, original_rom_path)
+        print(f"Renamed {modified_rom} to {selected_rom}")
+
+    print("Cleanup complete!")
         
 # Function to let the user choose a ROM file
 def get_rom_choice(directory):
@@ -119,8 +154,20 @@ if __name__ == "__main__":
     
     # Step 6: Install lbmk dependencies
     print("Step 6: Install lbmk dependencies")
-    run_command("./build dependencies debian", cwd=get_path("libreboot/t440p/lbmk"), use_sudo=True)
-    run_command("chown -R user:user lbmk", cwd=get_path("libreboot/t440p"), use_sudo=True)
+    lbmk_dir = get_path("libreboot/t440p", "lbmk")
+
+    if not os.path.exists(lbmk_dir):
+        print("The lbmk directory does not exist. Please ensure it is properly cloned or created.")
+        exit(1)
+
+    os.chdir(lbmk_dir)
+    run_command("./build dependencies debian", cwd=lbmk_dir, use_sudo=True)
+
+    # Get the current username
+    current_user = getpass.getuser()
+
+    # Correctly set the ownership of the lbmk directory
+    run_command(f"chown -R {current_user}:{current_user} {lbmk_dir}", cwd=lbmk_dir, use_sudo=True)
 
     # Step 7: Ask if the user wants to inject blobs into the ROM .tar.xz file
     print("Step 7: Would you like to inject blobs into the ROM .tar.xz file? "
@@ -239,5 +286,8 @@ if __name__ == "__main__":
         run_command(f"sudo dd if={selected_rom} of=bottom.rom bs=1M count=8", cwd=get_path("libreboot/t440p/lbmk"), use_sudo=True)
     else:
         print("The .rom file is ready for internal flash.")
+        
+    # Step 20: Clean up lbmk directory
+    clean_up_lbmk_directory(selected_rom, flash_type)
 
     print("Congratulations! The .rom file is prepared and ready to be flashed to your T440p.")
