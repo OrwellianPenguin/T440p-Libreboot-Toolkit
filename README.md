@@ -18,9 +18,10 @@ To enable sudo permissions for your regular user (not root), follow these steps:
    ```bash
    sudo visudo
    ```
-3. **Add User Entry**: Below the group sudo entry, add a line for your user:
+3. **Add User Entry**: Below the group sudo entry, add a line for your user: 
+![Screenshot from 2023-11-16 01-18-29](https://github.com/OrwellianPenguin/T440p-Libreboot-Toolkit/assets/149578247/304a2374-746d-45ee-9944-964b7a718951)
    - Format: `username    ALL=(ALL:ALL) ALL`
-   - Replace `username` with the actual username.
+   - Replace `username` with the your actual username.
 4. **Save and Exit**: Press `CTRL+X`, then `CTRL+Y` to save changes.
 5. **Test Sudo Access**: Switch to the user account and test sudo access:
    ```bash
