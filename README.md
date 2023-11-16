@@ -73,12 +73,7 @@ The script follows these steps:
 - Prepares the `.rom` file for flashing (internal or external based on user input).
 
 ## Flashing the ROM
-Once the `.rom` file is prepared, follow the instructions displayed by the script to flash it onto your T440p. This process may vary depending on whether you are performing an internal or external flash.
-
-## Post-Flashing Steps
-After successfully flashing the ROM, you may need to:
-- Reassemble your laptop if you performed an external flash.
-- Set up your BIOS settings according to your preferences.
+Once the `.rom` file is prepared, follow the instructions below for more information, this includes instructions for both internal and external flashing. (WIP)
 
 ## Troubleshooting
 If you encounter any issues:
