@@ -48,16 +48,16 @@ The script follows these steps:
 
 Step 6: Blob Injection
 
-    This step is essential for the initial setup to inject necessary blobs into the ROM file.
-    When re-running the script, you'll have the option to skip this step if you're using a ROM file that already has the blobs injected.
+- This step is essential for the initial setup to inject necessary blobs into the ROM file.
+  When re-running the script, you'll have the option to skip this step if you're using a ROM file that already has the blobs injected.
 
 First-Time Users:
 
-    It's crucial to perform blob injection during your first setup. The script will prompt you to inject blobs.
+- It's crucial to perform blob injection during your first setup. The script will prompt you to inject blobs.
 
 Returning Users:
 
-    If you're using a ROM file that was previously prepared with the necessary blobs, you can opt to skip this step. The script will ask if you want to inject blobs again.
+- If you're using a ROM file that was previously prepared with the necessary blobs, you can opt to skip this step. The script will ask if you want to inject blobs again.
 
 ### Step 7: ROM Selection and Preparation
 - Lets the user select a ROM file and prepares it for flashing.
