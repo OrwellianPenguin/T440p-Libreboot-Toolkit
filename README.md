@@ -29,7 +29,7 @@ To enable sudo permissions for your regular user (not root), follow these steps:
 
    - Format: `username    ALL=(ALL:ALL) ALL`
    - Replace `username` with the your actual username.
-4. **Save and Exit**: Press `CTRL+X`, then `CTRL+Y` to save changes.
+4. **Save and Exit**: Press `CTRL+X`, then `Y` to save changes, and then press `Enter`
 5. **Reboot**: `sudo reboot`
 
 ## Installing Git & Python3
