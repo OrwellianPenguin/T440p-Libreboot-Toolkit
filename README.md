@@ -97,7 +97,11 @@ The script follows these steps:
 - Makes backups of important files.
 
 ## Step 9: Final Preparations
-- Prepares the `.rom` file for flashing (internal or external based on user input).
+- Prepares the `.rom` file for flashing (internal or external based on user input). 
+The .rom file is located inside:
+```
+cd T440p-Libreboot-Toolkit/libreboot/t440p/lbmk
+```
 
 ## (Optional) Updating the Firmware Internally
 If you choose to update the firmware internally, follow these steps:
