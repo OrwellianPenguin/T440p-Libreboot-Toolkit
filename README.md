@@ -72,7 +72,7 @@ The script follows these steps:
 
 ## Step 6: Blob Injection
 
-- This step is essential for the initial setup to inject necessary blobs into the ROM file.
+- This step is essential for the initial setup to inject necessary blobs into the ROM files.
   When re-running the script, you'll have the option to skip this step if you're using ROM files that already had the blobs injected.
 
 #### First-Time Users:
@@ -81,7 +81,7 @@ The script follows these steps:
 
 #### Returning Users:
 
-- If you're using a ROM file that was previously prepared with the necessary blobs, you can opt to skip this step. The script will ask if you want to inject blobs again. 
+- If you ran the script previously and prepared the ROM files with the necessary blobs, you can opt to skip this step. The script will ask if you want to inject blobs again. 
 
 **Note**: ROM files with blobs already injected are located in `T440p-Libreboot-Toolkit/libreboot/t440p/lbmk/bin/release/t440pmrc_12mb`
 
