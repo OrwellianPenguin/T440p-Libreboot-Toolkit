@@ -101,7 +101,8 @@ The script follows these steps:
 
 ## (Optional) Updating the Firmware Internally
 If you choose to update the firmware internally, follow these steps:
-- PLEASE NOTE: This is only availbile after you flash the firmware externally!
+
+**Note**: This is only availbile after you flash the firmware externally!
 
 ### Install flashrom
 To install flashrom, use the following command:
@@ -129,7 +130,7 @@ sudo flashrom -p internal:laptop=force_I_want_a_brick,boardmismatch=force -w lib
 ```
 **Note**: The `force_I_want_a_brick` option disables safety checks in `flashrom`. It's necessary in some cases but use it cautiously. Ensure you're using the correct ROM for your machine.
 
-### Troubleshooting: /dev/mem Access Error
+### Troubleshooting: /dev/mem Access Error?
 If you encounter an error related to /dev/mem access, reboot with the `iomem=relaxed` kernel parameter. Modify GRUB settings by running:
 ```bash
 sudo nano /etc/default/grub
