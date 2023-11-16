@@ -23,7 +23,7 @@ To enable sudo permissions for your regular user (not root), follow these steps:
    ```bash
    sudo visudo
    ```
-![Screenshot from 2023-11-16 01-18-29](https://github.com/OrwellianPenguin/T440p-Libreboot-Toolkit/assets/149578247/72eb13b4-f62b-4799-93fa-2ec2e6461e3d)
+![Screenshot_1](https://i.ibb.co/5GZmnc8/Screenshot-from-2023-11-16-01-18-29.png)
 
 3. **Add User Entry**: Below the group sudo entry, add a line for your user: 
 
@@ -136,7 +136,7 @@ If you encounter an error related to /dev/mem access, reboot with the `iomem=rel
 ```bash
 sudo nano /etc/default/grub
 ```
-![Screenshot from 2023-11-16 01-39-11](https://github.com/OrwellianPenguin/T440p-Libreboot-Toolkit/assets/149578247/e315e2ed-0367-4f72-ba14-04e314f989a7)
+![Screenshot_2](https://i.ibb.co/5GZmnc8/Screenshot-from-2023-11-16-01-18-29.png)
 Add `iomem=relaxed` to the line:
 ```
 Example: GRUB_CMDLINE_LINUX_DEFAULT="quiet splash iomem=relaxed"
