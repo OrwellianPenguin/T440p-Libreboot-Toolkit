@@ -1,4 +1,4 @@
-# T440p Libreboot Flashing/Injection Guide
+# T440p Libreboot Injection Guide
 
 ## Overview
 This guide provides step-by-step instructions to prepare and flash a T440p laptop with Libreboot using a Python script. The script automates several tasks including downloading files, verifying signatures, and preparing the ROM.
