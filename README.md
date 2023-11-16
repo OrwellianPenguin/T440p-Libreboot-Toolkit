@@ -8,6 +8,13 @@ This guide provides step-by-step instructions to prepare and flash a T440p lapto
 - Python 3 installed on your system.
 - Basic familiarity with terminal commands.
 
+## Installing Python 3
+Before running the script, ensure you have Python 3 installed. If not, install it using the following command:
+```bash
+sudo apt update
+sudo apt install python3
+```
+
 ## Getting Started
 1. **Clone the Repository**: If applicable, clone the repository containing the script or download the script directly to your local machine.
    ```
