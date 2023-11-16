@@ -46,7 +46,7 @@ The script follows these steps:
 ### Step 5: Install Dependencies
 - Installs dependencies required for Libreboot and lbmk.
 
-Step 6: Blob Injection
+### Step 6: Blob Injection
 
 - This step is essential for the initial setup to inject necessary blobs into the ROM file.
   When re-running the script, you'll have the option to skip this step if you're using a ROM file that already has the blobs injected.
