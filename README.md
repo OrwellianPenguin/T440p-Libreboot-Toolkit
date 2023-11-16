@@ -7,6 +7,11 @@ This guide provides step-by-step instructions to prepare and flash a T440p lapto
 - A Debian-based GNU/Linux environment.
 - Python 3 and 'git' installed on your system.
 - Basic familiarity with terminal commands.
+- Update the EC with the stock firmware before flashing Libreboot
+
+You can update from Windows with the BIOS Update Utility or a bootable CD:
+
+https://support.lenovo.com/us/en/downloads/ds037575-bios-update-utility-bootable-cd-for-windows-10-81-8-64-bit-7-32-bit-64-bit-thinkpad-t440p
 
 ## Add your user to the sudoers file
 To enable sudo permissions for your regular user (not root), follow these steps:
@@ -93,8 +98,10 @@ The script follows these steps:
 
 ### Step 9: Final Preparations
 - Prepares the `.rom` file for flashing (internal or external based on user input).
-## Updating the Firmware Internally
+
+## (Optional) Updating the Firmware Internally
 If you choose to update the firmware internally, follow these steps:
+- PLEASE NOTE: This is only availbile after you flash the firmware externally!
 
 ### Install flashrom
 To install flashrom, use the following command:
@@ -111,9 +118,9 @@ sudo flashrom -p internal
 ### Create and Verify Dumps
 Run this command to create the firmware dumps and verify them. Ensure the hashes match for safety.
 ```bash
-cd /home/user/Documents/Libreboot/ && sudo flashrom -p internal:laptop=force_I_want_a_brick,boardmismatch=force -r dump1_internal.bin && sudo flashrom -p internal:laptop=force_I_want_a_brick,boardmismatch=force -r dump2_internal.bin && sudo flashrom -p internal:laptop=force_I_want_a_brick,boardmismatch=force -r dump3_internal.bin && sha1sum dump1_internal.bin && sha1sum dump2_internal.bin && sha1sum dump3_internal.bin
+cd T440p-Libreboot-Toolkit/libreboot/t440p/lbmk && sudo flashrom -p internal:laptop=force_I_want_a_brick,boardmismatch=force -r dump1_internal.bin && sudo flashrom -p internal:laptop=force_I_want_a_brick,boardmismatch=force -r dump2_internal.bin && sudo flashrom -p internal:laptop=force_I_want_a_brick,boardmismatch=force -r dump3_internal.bin && sha1sum dump1_internal.bin && sha1sum dump2_internal.bin && sha1sum dump3_internal.bin
 ```
-**Important**: Save these dumps to two separate USB drives for backup.
+**Important**: Save these dumps to a USB drive for backup.
 
 ### Erase and Rewrite Chip Contents
 To erase and rewrite the chip contents, use:
