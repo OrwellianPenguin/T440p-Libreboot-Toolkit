@@ -30,10 +30,7 @@ To enable sudo permissions for your regular user (not root), follow these steps:
    - Format: `username    ALL=(ALL:ALL) ALL`
    - Replace `username` with the your actual username.
 4. **Save and Exit**: Press `CTRL+X`, then `CTRL+Y` to save changes.
-5. **Test Sudo Access**: Switch to the user account and test sudo access:
-   ```bash
-   sudo usermod -aG sudo username
-   ```
+5. **Reboot**: `sudo reboot`
 
 ## Installing Git & Python3
 Before running the script, ensure you have Python 3 installed. If not, install it using the following command:
