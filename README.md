@@ -18,8 +18,8 @@ sudo apt install python3
 ## Getting Started
 1. **Clone the Repository**: If applicable, clone the repository containing the script or download the script directly to your local machine.
    ```
-   git clone [URL-to-Repository]
-   cd [Repository-Name]
+   git clone https://github.com/OrwellianPenguin/T440p-Libreboot-Toolkit
+   cd T440p-Libreboot-Toolkit
    ```
 
 2. **Script Execution**: Run the script with Python 3.
@@ -88,7 +88,3 @@ If you encounter any issues:
 
 ## Contributions
 Contributions to this script and guide are welcome. Please submit issues or pull requests to the repository.
-
----
-
-**Note**: Replace `[URL-to-Repository]` and `[Repository-Name]` with the actual URL to your Git repository and its name. Also, ensure that any specific instructions or prerequisites related to your script are accurately reflected in this README.
