@@ -73,7 +73,7 @@ The script follows these steps:
 ## Step 6: Blob Injection
 
 - This step is essential for the initial setup to inject necessary blobs into the ROM file.
-  When re-running the script, you'll have the option to skip this step if you're using a ROM file that already has the blobs injected.
+  When re-running the script, you'll have the option to skip this step if you're using ROM files that already had the blobs injected.
 
 #### First-Time Users:
 
@@ -81,7 +81,7 @@ The script follows these steps:
 
 #### Returning Users:
 
-- If you're using a ROM file that was previously prepared with the necessary blobs, you can opt to skip this step. The script will ask if you want to inject blobs again.
+- If you're using a ROM file that was previously prepared with the necessary blobs, you can opt to skip this step. The script will ask if you want to inject blobs again. (ROM files with blobs already injected are located here: cd T440p-Libreboot-Toolkit/libreboot/t440p/lbmk/bin/)
 
 ## Step 7: ROM Selection and Preparation
 - Lets the user select a ROM file and prepares it for flashing.
