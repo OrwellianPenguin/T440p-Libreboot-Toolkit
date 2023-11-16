@@ -8,6 +8,25 @@ This guide provides step-by-step instructions to prepare and flash a T440p lapto
 - Python 3 installed on your system.
 - Basic familiarity with terminal commands.
 
+## Add your user to the sudoers file
+To enable sudo permissions for your regular user (not root), follow these steps:
+1. **Open Terminal and Become Root** (if not already):
+   ```bash
+   su
+   ```
+2. **Edit the sudoers File with visudo**:
+   ```bash
+   sudo visudo
+   ```
+3. **Add User Entry**: Below the group sudo entry, add a line for your user:
+   - Format: `username    ALL=(ALL:ALL) ALL`
+   - Replace `username` with the actual username.
+4. **Save and Exit**: Press `CTRL+X`, then `CTRL+Y` to save changes.
+5. **Test Sudo Access**: Switch to the user account and test sudo access:
+   ```bash
+   sudo usermod -aG sudo username
+   ```
+
 ## Installing Python 3
 Before running the script, ensure you have Python 3 installed. If not, install it using the following command:
 ```bash
