@@ -141,7 +141,7 @@ Example: GRUB_CMDLINE_LINUX_DEFAULT="quiet splash iomem=relaxed"
 ```
 Save changes and reboot.
 
-## Troubleshooting
+## Other issues?
 If you encounter any issues:
 - Revisit the steps to ensure all were followed correctly.
 - Check for any error messages in the script output and address them accordingly.
