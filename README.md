@@ -62,7 +62,7 @@ The script follows these steps:
 - Ensures the `lbmk` directory exists or clones it from the Git repository.
 
 ## Step 3: Download Libreboot Files
-- Downloads the latest version of Libreboot and the specific ROM for T440p.
+- Downloads the latest version of Libreboot and the specific ROM files for the T440p.
 
 ## Step 4: Verify Checksums and Signatures
 - Verifies the checksums (`sha256` and `sha512`) and signatures of the downloaded files.
