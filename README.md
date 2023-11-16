@@ -136,7 +136,7 @@ If you encounter an error related to /dev/mem access, reboot with the `iomem=rel
 ```bash
 sudo nano /etc/default/grub
 ```
-![Screenshot_2](https://i.ibb.co/5GZmnc8/Screenshot-from-2023-11-16-01-18-29.png)
+![Screenshot_2](https://i.ibb.co/VC7Z5LM/Screenshot-from-2023-11-16-01-39-11.png)
 Add `iomem=relaxed` to the line:
 ```
 Example: GRUB_CMDLINE_LINUX_DEFAULT="quiet splash iomem=relaxed"
