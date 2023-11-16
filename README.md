@@ -5,7 +5,7 @@ This guide provides step-by-step instructions to prepare and flash a T440p lapto
 
 ## Prerequisites
 - A Debian-based GNU/Linux environment.
-- Python 3 installed on your system.
+- Python 3 and 'git' installed on your system.
 - Basic familiarity with terminal commands.
 
 ## Add your user to the sudoers file
@@ -18,8 +18,10 @@ To enable sudo permissions for your regular user (not root), follow these steps:
    ```bash
    sudo visudo
    ```
+![Screenshot from 2023-11-16 01-18-29](https://github.com/OrwellianPenguin/T440p-Libreboot-Toolkit/assets/149578247/72eb13b4-f62b-4799-93fa-2ec2e6461e3d)
+
 3. **Add User Entry**: Below the group sudo entry, add a line for your user: 
-![Screenshot from 2023-11-16 01-18-29](https://github.com/OrwellianPenguin/T440p-Libreboot-Toolkit/assets/149578247/304a2374-746d-45ee-9944-964b7a718951)
+
    - Format: `username    ALL=(ALL:ALL) ALL`
    - Replace `username` with the your actual username.
 4. **Save and Exit**: Press `CTRL+X`, then `CTRL+Y` to save changes.
@@ -28,17 +30,17 @@ To enable sudo permissions for your regular user (not root), follow these steps:
    sudo usermod -aG sudo username
    ```
 
-## Installing Python 3
+## Installing Git & Python3
 Before running the script, ensure you have Python 3 installed. If not, install it using the following command:
 ```bash
 sudo apt update
-sudo apt install python3
+sudo apt install git && sudo apt install python3
 ```
 
 ## Getting Started
 1. **Clone the Repository**: If applicable, clone the repository containing the script or download the script directly to your local machine.
    ```
-   git clone https://github.com/OrwellianPenguin/T440p-Libreboot-Toolkit
+   git clone https://github.com/OrwellianPenguin/T440p-Libreboot-*
    cd T440p-Libreboot-Toolkit
    ```
 
@@ -91,9 +93,49 @@ The script follows these steps:
 
 ### Step 9: Final Preparations
 - Prepares the `.rom` file for flashing (internal or external based on user input).
+## Updating the Firmware Internally
+If you choose to update the firmware internally, follow these steps:
 
-## Flashing the ROM
-Once the `.rom` file is prepared, follow the instructions below for more information, this includes instructions for both internal and external flashing. (WIP)
+### Install flashrom
+To install flashrom, use the following command:
+```bash
+sudo apt install flashrom
+```
+
+### Check Flashing Capability
+Before proceeding, verify if your device supports internal flashing:
+```bash
+sudo flashrom -p internal
+```
+
+### Create and Verify Dumps
+Run this command to create the firmware dumps and verify them. Ensure the hashes match for safety.
+```bash
+cd /home/user/Documents/Libreboot/ && sudo flashrom -p internal:laptop=force_I_want_a_brick,boardmismatch=force -r dump1_internal.bin && sudo flashrom -p internal:laptop=force_I_want_a_brick,boardmismatch=force -r dump2_internal.bin && sudo flashrom -p internal:laptop=force_I_want_a_brick,boardmismatch=force -r dump3_internal.bin && sha1sum dump1_internal.bin && sha1sum dump2_internal.bin && sha1sum dump3_internal.bin
+```
+**Important**: Save these dumps to two separate USB drives for backup.
+
+### Erase and Rewrite Chip Contents
+To erase and rewrite the chip contents, use:
+```bash
+sudo flashrom -p internal:laptop=force_I_want_a_brick,boardmismatch=force -w libreboot.rom
+```
+**Note**: The `force_I_want_a_brick` option disables safety checks in `flashrom`. It's necessary in some cases but use it cautiously. Ensure you're using the correct ROM for your machine.
+
+### Additional Steps for GM45+ICH9M Laptops
+For specific models like the ThinkPad X200/X200S/X200T, T400, etc., run the `ich9gen` utility to preserve your MAC address. Consult the [ich9utils documentation](https://libreboot.org/docs/install/ich9utils.html) for more information.
+
+### Troubleshooting: /dev/mem Access Error
+If you encounter an error related to /dev/mem access, reboot with the `iomem=relaxed` kernel parameter. Modify GRUB settings by running:
+```bash
+sudo nano /etc/default/grub
+```
+![Screenshot from 2023-11-16 01-39-11](https://github.com/OrwellianPenguin/T440p-Libreboot-Toolkit/assets/149578247/e315e2ed-0367-4f72-ba14-04e314f989a7)
+Add `iomem=relaxed` to the line:
+```
+Example: GRUB_CMDLINE_LINUX_DEFAULT="quiet splash iomem=relaxed"
+```
+Save changes and reboot.
 
 ## Troubleshooting
 If you encounter any issues:
