@@ -118,7 +118,7 @@ sudo flashrom -p internal
 ### Create and Verify Dumps
 Run this command to create the firmware dumps and verify them. Ensure the hashes match for safety.
 ```bash
-cd T440p-Libreboot-Toolkit/libreboot/t440p/lbmk && sudo flashrom -p internal:laptop=force_I_want_a_brick,boardmismatch=force -r dump1_internal.bin && sudo flashrom -p internal:laptop=force_I_want_a_brick,boardmismatch=force -r dump2_internal.bin && sudo flashrom -p internal:laptop=force_I_want_a_brick,boardmismatch=force -r dump3_internal.bin && sha1sum dump1_internal.bin && sha1sum dump2_internal.bin && sha1sum dump3_internal.bin
+sudo flashrom -p internal:laptop=force_I_want_a_brick,boardmismatch=force -r dump1_internal.bin && sudo flashrom -p internal:laptop=force_I_want_a_brick,boardmismatch=force -r dump2_internal.bin && sudo flashrom -p internal:laptop=force_I_want_a_brick,boardmismatch=force -r dump3_internal.bin && sha1sum dump1_internal.bin && sha1sum dump2_internal.bin && sha1sum dump3_internal.bin
 ```
 **Important**: Save these dumps to a USB drive for backup.
 
