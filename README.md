@@ -57,23 +57,23 @@ sudo apt install git && sudo apt install python3
 ## Script Workflow
 The script follows these steps:
 
-### Step 1: Pre-steps
+## Step 1: Pre-steps
 - Installs necessary packages like `gnupg`, `wget`, and `git`.
 - Downloads and imports the Libreboot key (`lbkey.asc`) for signature verification.
 
-### Step 2: Check for `lbmk` Directory
+## Step 2: Check for `lbmk` Directory
 - Ensures the `lbmk` directory exists or clones it from the Git repository.
 
-### Step 3: Download Libreboot Files
+## Step 3: Download Libreboot Files
 - Downloads the latest version of Libreboot and the specific ROM for T440p.
 
-### Step 4: Verify Checksums and Signatures
+## Step 4: Verify Checksums and Signatures
 - Verifies the checksums (`sha256` and `sha512`) and signatures of the downloaded files.
 
-### Step 5: Install Dependencies
+## Step 5: Install Dependencies
 - Installs dependencies required for Libreboot and lbmk.
 
-### Step 6: Blob Injection
+## Step 6: Blob Injection
 
 - This step is essential for the initial setup to inject necessary blobs into the ROM file.
   When re-running the script, you'll have the option to skip this step if you're using a ROM file that already has the blobs injected.
@@ -86,17 +86,17 @@ The script follows these steps:
 
 - If you're using a ROM file that was previously prepared with the necessary blobs, you can opt to skip this step. The script will ask if you want to inject blobs again.
 
-### Step 7: ROM Selection and Preparation
+## Step 7: ROM Selection and Preparation
 - Lets the user select a ROM file and prepares it for flashing.
 
-### Step 8: Verifying and Preparing for Flashing
+## Step 8: Verifying and Preparing for Flashing
 - Checks if blobs were correctly inserted.
 - Creates necessary `.bin` files and compiles utilities like `nvmutil`.
 - Sets a MAC address (random or manual).
 - Verifies the integrity of the blob insertion using `hexdump`.
 - Makes backups of important files.
 
-### Step 9: Final Preparations
+## Step 9: Final Preparations
 - Prepares the `.rom` file for flashing (internal or external based on user input).
 
 ## (Optional) Updating the Firmware Internally
