@@ -129,9 +129,6 @@ sudo flashrom -p internal:laptop=force_I_want_a_brick,boardmismatch=force -w lib
 ```
 **Note**: The `force_I_want_a_brick` option disables safety checks in `flashrom`. It's necessary in some cases but use it cautiously. Ensure you're using the correct ROM for your machine.
 
-### Additional Steps for GM45+ICH9M Laptops
-For specific models like the ThinkPad X200/X200S/X200T, T400, etc., run the `ich9gen` utility to preserve your MAC address. Consult the [ich9utils documentation](https://libreboot.org/docs/install/ich9utils.html) for more information.
-
 ### Troubleshooting: /dev/mem Access Error
 If you encounter an error related to /dev/mem access, reboot with the `iomem=relaxed` kernel parameter. Modify GRUB settings by running:
 ```bash
