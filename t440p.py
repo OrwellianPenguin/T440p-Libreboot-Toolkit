@@ -38,7 +38,7 @@ def clean_up_lbmk_directory(selected_rom, flash_type):
     modified_rom = f"{selected_rom}.new"
     files_to_keep = [
         "bin", "cbutils", "config", "elf", "projectname", "README.md", "build", "include",
-        "script", "src", "tmp", "update", "util", "vendor", "vendorfiles", "version", "versiondate", "mrc", "COPYING", ".git", ".gitignore",  # Added comma here
+        "script", "src", "tmp", "update", "util", "vendor", "vendorfiles", "version", "versiondate", "mrc", "COPYING", ".git", ".gitignore",
         modified_rom  # Keep the modified ROM file
     ]
 
