@@ -7,7 +7,7 @@ This guide offers straightforward instructions on how to prepare and inject blob
 - A Debian-based GNU/Linux environment.
 - Python 3 and 'git' installed on your system.
 - Basic familiarity with terminal commands.
-- Update the EC with the stock firmware before flashing Libreboot
+- Update the EC with the stock firmware before flashing Libreboot, not required, but recommended for battery stability.
 
 You can update from Windows with the BIOS Update Utility or a bootable CD:
 
