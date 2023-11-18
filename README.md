@@ -1,4 +1,4 @@
-# T440p Libreboot Injection Script
+# T440p Libreboot Blob Injection Script
 
 ## Overview
 This guide offers straightforward instructions on how to prepare and inject blobs into a Libreboot T440p ROM file using a Python script. The script simplifies the process by handling tasks such as downloading necessary files, verifying signatures, and setting up the ROM.
