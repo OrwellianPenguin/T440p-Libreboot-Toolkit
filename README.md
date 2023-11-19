@@ -124,12 +124,13 @@ sudo flashrom -p internal:laptop=force_I_want_a_brick,boardmismatch=force -r dum
 ```
 **Important**: Save these dumps to a USB drive for backup.
 
+**Note**: The `force_I_want_a_brick` option disables safety checks in `flashrom`. It's necessary in some cases but use it cautiously. Ensure you're using the correct ROM for your machine.
+
 ### Erase and Rewrite Chip Contents
 To erase and rewrite the chip contents, use:
 ```bash
 sudo flashrom -p internal:laptop=force_I_want_a_brick,boardmismatch=force -w libreboot.rom
 ```
-**Note**: The `force_I_want_a_brick` option disables safety checks in `flashrom`. It's necessary in some cases but use it cautiously. Ensure you're using the correct ROM for your machine.
 
 ### Troubleshooting: /dev/mem Access Error?
 If you encounter an error related to /dev/mem access, reboot with the `iomem=relaxed` kernel parameter. Modify GRUB settings by running:
