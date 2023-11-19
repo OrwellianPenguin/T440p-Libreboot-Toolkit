@@ -23,7 +23,7 @@ To enable sudo permissions for your regular user (not root), follow these steps:
    ```bash
    sudo visudo
    ```
-![Screenshot_1](https://ibb.co/k4gXxn9)
+![Screenshot_1](https://i.ibb.co/6HRFmh1/Screenshot-from-2023-11-19-01-28-55.png)
 
 3. **Add User Entry**: Below the group sudo entry, add a line for your user: 
 
