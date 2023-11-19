@@ -72,7 +72,7 @@ def main():
         verify_checksum(checksum_file, iso_path, alg)
         verify_signature(signature_file, checksum_file)
 
-    print("Script completed successfully.")
+    print("Debian has been successfully downloaded and verified.")
 
 if __name__ == "__main__":
     main()
