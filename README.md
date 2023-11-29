@@ -142,10 +142,14 @@ Add `iomem=relaxed` to the line:
 ```
 Example: GRUB_CMDLINE_LINUX_DEFAULT="quiet splash iomem=relaxed"
 ```
+**Save and Exit**: Press `CTRL+X`, then `Y` to save changes, and then press `Enter`
 ```bash
 sudo update-grub
 ```
 Save changes and reboot.
+```bash
+sudo reboot
+```
 
 ## Other issues?
 If you encounter any issues:
