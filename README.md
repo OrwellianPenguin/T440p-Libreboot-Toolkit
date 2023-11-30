@@ -93,7 +93,6 @@ The script follows these steps:
 - Creates necessary `.bin` files and compiles utilities like `nvmutil`.
 - Sets a MAC address (random or manual).
 - Verifies the integrity of the blob insertion using `hexdump`.
-- Makes backups of important files.
 
 ## Step 9: Final Preparations
 - Prepares the `.rom` file(s) for flashing (internal or external based on user input). 
