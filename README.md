@@ -148,7 +148,7 @@ After that, you must update GRUB to apply chages.
 ```bash
 sudo update-grub
 ```
-Save changes and reboot.
+Reboot.
 ```bash
 sudo reboot
 ```
