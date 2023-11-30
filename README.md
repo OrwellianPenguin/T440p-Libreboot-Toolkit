@@ -138,8 +138,10 @@ sudo nano /etc/default/grub
 ```
 ![Screenshot_2](https://i.ibb.co/VC7Z5LM/Screenshot-from-2023-11-16-01-39-11.png)
 Add `iomem=relaxed` to the line:
+
+Example:
 ```
-Example: GRUB_CMDLINE_LINUX_DEFAULT="quiet splash iomem=relaxed"
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash iomem=relaxed"
 ```
 **Save and Exit**: Press `CTRL+X`, then `Y` to save changes, and then press `Enter`
 After that, you must update GRUB to apply chages.
