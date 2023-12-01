@@ -107,7 +107,7 @@ If you choose to update the firmware internally, follow these steps:
 ### Install flashrom
 To install flashrom, use the following command:
 ```bash
-sudo apt install flashrom
+sudo apt-get install flashrom
 ```
 
 ### Check Flashing Capability
