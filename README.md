@@ -150,7 +150,7 @@ sudo update-grub
 ```
 Reboot.
 ```bash
-sudo reboot
+sudo shutdown now
 ```
 
 ## Other issues?
