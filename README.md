@@ -35,8 +35,8 @@ To enable sudo permissions for your regular user (not root), follow these steps:
 ## Installing Git & Python3
 Before running the script, ensure you have Python 3 installed. If not, install it using the following command:
 ```bash
-sudo apt update
-sudo apt install git && sudo apt install python3
+sudo apt-get update
+sudo apt-get install git && sudo apt-get install python3
 ```
 
 ## Getting Started
