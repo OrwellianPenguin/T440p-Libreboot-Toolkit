@@ -101,7 +101,7 @@ The .rom file(s) are located inside:
 
 ## (Optional) Updating the Firmware Internally
 If you choose to update the firmware internally, follow these steps:
-### Plug your laptop into a charger first.
+### Plug your laptop into a charger first!
 This feature is only availbile after you flash the firmware externally.
 
 ### Install flashrom
