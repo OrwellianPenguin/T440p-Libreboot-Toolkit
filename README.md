@@ -144,6 +144,7 @@ Example:
 GRUB_CMDLINE_LINUX_DEFAULT="quiet splash iomem=relaxed"
 ```
 **Save and Exit**: Press `CTRL+X`, then `Y` to save changes, and then press `Enter`
+
 After that, you must update GRUB to apply chages.
 ```bash
 sudo update-grub
