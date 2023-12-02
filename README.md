@@ -101,8 +101,8 @@ The .rom file(s) are located inside:
 
 ## (Optional) Updating the Firmware Internally
 If you choose to update the firmware internally, follow these steps:
-
-**Note**: This is only availbile after you flash the firmware externally!
+### Plug your laptop into a charger first.
+This feature is only availbile after you flash the firmware externally.
 
 ### Install flashrom
 To install flashrom, use the following command:
@@ -157,7 +157,29 @@ sudo shutdown now
 If you encounter any issues:
 - Revisit the steps to ensure all were followed correctly.
 - Check for any error messages in the script output and address them accordingly.
-- Consult the [Libreboot documentation](https://libreboot.org/docs/) for additional guidance.
+- Consult the Libreboot documentation for additional guidance.
+
+## Documentation:
+https://libreboot.org/docs/
+
+https://libreboot.org/docs/build/#introduction
+
+https://libreboot.org/docs/install/ivy_has_common.html#introduction
+
+https://libreboot.org/docs/install/spi.html#rasberry-pi-rpi
+
+https://libreboot.org/docs/install/spi.html#gpio-pins-on-raspberry-pi-rpi-40-pin
+
+https://libreboot.org/docs/install/spi.html#gpio-pins-on-raspberry-pi-rpi-26-pin
+
+https://libreboot.org/docs/install/spi.html#how-to-use-flashrom (You can use normal flashrom, no need for ./flashrom)
+
+https://libreboot.org/docs/install/t440p_external.html
+
+
 
 ## Contributions
 Contributions to this script and guide are welcome. Please submit issues or pull requests to the repository.
+
+## Credit
+Leah Rowe: Creator of Libreboot
