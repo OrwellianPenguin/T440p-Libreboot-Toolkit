@@ -15,11 +15,11 @@ https://support.lenovo.com/us/en/downloads/ds037575-bios-update-utility-bootable
 
 ## Add your user to the sudoers file
 To enable sudo permissions for your regular user (not root), follow these steps:
-1. **Open Terminal and Become Root** (if not already):
+1. **Open terminal and become root** (if not already):
    ```bash
    su
    ```
-2. **Edit the sudoers File with visudo**:
+2. **Edit the sudoers file with visudo**:
    ```bash
    sudo visudo
    ```
