@@ -172,7 +172,7 @@ https://libreboot.org/docs/install/spi.html#gpio-pins-on-raspberry-pi-rpi-40-pin
 
 https://libreboot.org/docs/install/spi.html#gpio-pins-on-raspberry-pi-rpi-26-pin
 
-https://libreboot.org/docs/install/spi.html#how-to-use-flashrom (You can use normal flashrom, no need for ./flashrom)
+https://libreboot.org/docs/install/spi.html#how-to-use-flashrom (You can use normal flashrom)
 
 https://libreboot.org/docs/install/t440p_external.html
 
