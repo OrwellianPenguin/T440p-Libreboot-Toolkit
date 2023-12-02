@@ -183,4 +183,6 @@ https://libreboot.org/docs/install/t440p_external.html
 Contributions to this script and guide are welcome. Please submit issues or pull requests to the repository.
 
 ## Credit
-Leah Rowe: Creator of Libreboot
+**Leah Rowe**: Creator of Libreboot
+
+**Librety Systems on eBay / OrwellianPenguin on GitHub**: Creator of this script
