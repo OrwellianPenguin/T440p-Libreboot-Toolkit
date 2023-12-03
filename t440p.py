@@ -290,4 +290,4 @@ if __name__ == "__main__":
     # Step 20: Clean up lbmk directory
     clean_up_lbmk_directory(selected_rom, flash_type)
 
-    print("Congratulations! The .rom file is prepared and ready to be flashed to your T440p.")
+    print("Congratulations! The .rom file is prepared and ready to be flashed to your T440p. The .rom file you selected is located in 'T440p-Libreboot-Toolkit/libreboot/t440p/lbmk'")
